@@ -5,7 +5,7 @@ const express = require('express');
 
 const server = express();
 server.use(express.static(path.join(__dirname, 'WebPages')));
-const port = process.eventNames.PORT || 5000;
+const port = process.env.PORT || 5000;
 server.set('port', port);
 server.listen(port, () => {
     console.log(`Express server started at ${port}`);
