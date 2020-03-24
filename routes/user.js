@@ -10,7 +10,7 @@ router.get('/', ensureAuthenticated, (req,res) => {
 
 
 router.get('/request', ensureAuthenticated, (req,res) => {
-    res.sendFile(path.join(__dirname, "../client/webPages/index.html"));
+    res.sendFile(path.join(__dirname, "/../client/webPages/index.html"));
 })
 
 router.post('/request', (req,res) => {
