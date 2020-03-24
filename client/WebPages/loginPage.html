@@ -6,10 +6,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>SUTD Capstone Login Page</title>
+        <title>loginPage</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/css/loginPage.css">
+        <link rel="stylesheet" href="WebPages/css/loginPage.css">
     </head>
     <body>
         <div class="SUTDpic">
@@ -21,16 +21,16 @@
             <div class="Intro">
                 <p>For 2020 Capstone Groups</p>
             </div>
-            <form id="login-field">
-                UserID: <br>
-                <input type = "text" name = "userID"><br> <br>
-                Password: <br>
-                <input type = "password" id = "password"><br>
+            <form id = "login-field" action="/" method="POST">
+                <!-- UserID: <br> -->
+                <input type = "text" name = "userID" placeholder="userID">
+                <!-- Password: <br> -->
+                <input type = "password" name = "password" placeholder="password">
                 <div class = "loginButton">
-                    <input type="button" value = "Sign In">
+                    <input type="submit" value = "Sign In">
                 </div>
             </form>
         </div>
-        <script src="/js/loginPage.js" async defer></script>
+        <!-- <script src="/js/loginPage.js" async defer></script> -->
     </body>
 </html>

@@ -8,7 +8,7 @@ window.addEventListener('load', ()=> {
     loginButton.addEventListener("click", ()=> {
         if(userID.value == ID && password.value == pw) {
             alert("success");
-            window.location.replace("main");
+            window.location.replace("admin");
         }
         else {
             alert("failed");

@@ -10,7 +10,7 @@ body{
 }
 .SUTDpic{
     background-position: center;
-    background-image: url("/image/sutdpicture.jpg");
+    background-image: url("../image/sutdpicture.jpg");
     width: 100vh;
     height: 20vh;
 }
