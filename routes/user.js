@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const {ensureAuthenticated} = require('../config/auth');
+const mongoose = require('mongoose');
 
 
 router.get('/', ensureAuthenticated, (req,res) => {
@@ -16,6 +17,24 @@ router.get('/request', ensureAuthenticated, (req,res) => {
 router.post('/request', (req,res) => {
     const requestData = req.body;
     console.log(requestData);
+    var requestDB = require('../models/requestSchema');
+    var groupRequestDB;
+    requestDB.findOne({groupNumber: req.user.groupUserID}).then(gr => {
+        if (gr) {
+            groupRequestDB = gr;
+            groupRequestDB.groupRequest = requestData;
+            groupRequestDB.save();
+        }
+        else {
+            const newGroupRequest = new requestDB({
+                groupNumber: req.user.groupUserID,
+                groupRequest: requestData
+            });
+            newGroupRequest.save();
+        }
+    })
+
+
 })
 
 module.exports = router;

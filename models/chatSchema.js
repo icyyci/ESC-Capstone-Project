@@ -9,5 +9,5 @@ const chatSchema = new mongoose.Schema( {
     Messages: [{sender: {type: String}, msg: {type: String}}]
 });
 
-const chatDB = mongoose.model('chatLog', chatSchema);
+const chatDB = mongoose.model('chatlogs', chatSchema);
 module.exports = chatDB;
