@@ -52,7 +52,7 @@ server.use((req,res,next) => {
 //Routes
 server.use('/admin', require('./routes/admin.js'));
 server.use('/user', require('./routes/user.js'));
-var chatRoutes = require('./routes/chat');
+var chatRoutes = require('./routes/chat.js');
 server.use('/chat', chatRoutes);
 
 //EJS

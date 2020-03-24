@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 
 
 router.get('/', ensureAuthenticated, (req,res) => {
-    res.sendFile(path.join(__dirname + "/../client/webPages/chat.html"));
+    res.sendFile(path.join(__dirname + "/../client/WebPages/chat.html"));
 
     var init = true;
 
