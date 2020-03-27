@@ -19,6 +19,7 @@ export class FormRequestDetails extends Component {
         });
         axios.post('http://localhost:5000/user/request', this.props.values).then(response => {
           console.log('submitted to server');
+          console.log(response.data);
         }).catch(err => {
           throw err;
         });

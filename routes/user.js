@@ -15,7 +15,7 @@ router.get('/request', ensureAuthenticated, (req,res) => {
 })
 
 router.post('/request', (req,res) => {
-    const requestData = req.body;
+    var requestData = req.body;
     console.log(requestData);
     var requestDB = require('../models/requestSchema');
     var groupRequestDB;
@@ -23,7 +23,7 @@ router.post('/request', (req,res) => {
         if (gr) {
             groupRequestDB = gr;
             groupRequestDB.groupRequest = requestData;
-            groupRequestDB.save();
+            groupRequestDB.save();          
         }
         else {
             const newGroupRequest = new requestDB({
@@ -33,8 +33,6 @@ router.post('/request', (req,res) => {
             newGroupRequest.save();
         }
     })
-
-
 })
 
 module.exports = router;
