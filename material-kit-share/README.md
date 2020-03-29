@@ -1,4 +1,4 @@
 User Dashboard Page
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
+![Alt text](Dashboard.png?raw=true "Title")
 
 
