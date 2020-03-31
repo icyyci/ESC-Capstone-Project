@@ -11,9 +11,9 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/notif
 const useStyles = makeStyles(styles);
 
 
-export default function SectionNotifications(argument) {
+export default function SectionAdminNotification(props) {
   const classes = useStyles();
-  if(argument.isDisplay === true){
+  if(props.isDisplay === true){
     return (
       <div className={classes.section} id="notifications">
         <div className={classes.container}>
@@ -21,11 +21,11 @@ export default function SectionNotifications(argument) {
         <SnackbarContent
           message={
             <span>
-              <b>ALERT:</b> You{"'"}ve received a new allocation. Please check it out. Contact the admin is you have any issues.
+              <b>{props.message_title}</b> {props.message_content}
             </span>
           }
           close
-          color="primary"
+          color={props.colour}
           icon="info_outline"
         />
         <Clearfix />
