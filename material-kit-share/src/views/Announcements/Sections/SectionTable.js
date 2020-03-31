@@ -14,47 +14,40 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-export default function SimpleTable() {
+export default function DenseTable(data) {
   const classes = useStyles();
+
+  var array = []
+  for (var i = 0; i < data["data"].length; i++){
+    var key_value_pair = data["data"][i]
+    var property_name = (Object.keys(key_value_pair))[0]
+    var property_value = key_value_pair[property_name]
+    array.push([property_name, property_value])
+  }
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Property</TableCell>
+            <TableCell align="right">Value</TableCell>
           </TableRow>
-        </TableHead>
+        </TableHead> 
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
+          {array.map((arrayentry) => (
+            <TableRow key={arrayentry[0]}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {arrayentry[0]}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">
+                {arrayentry[1]}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    
   );
 }

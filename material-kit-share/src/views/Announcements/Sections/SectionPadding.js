@@ -23,7 +23,6 @@ export default function SectionPadding() {
           </span>
         }
         close
-        color="transparent"
       />
       <Clearfix />
     </div>

@@ -17,6 +17,19 @@ import styles from "assets/jss/material-kit-react/views/componentsSections/pills
 
 const useStyles = makeStyles(styles);
 
+// Davis: This is where you read the JSON from mongodb into var 'request'. For demonstration, 'request' is hard-coded with static values.
+var request = 
+[
+  {'Floor Space (m2)': 4},
+  {'No. of Plugs': 2},
+  {'No. of Screens': 1},
+  {'Require Outdoor Exhibition': 'False'},
+  {'Special Request': 'None'},
+  {'Yeah Yeah': 'Papaya'},
+  {'Blah Blah': 'Watermelon'}
+]
+
+
 export default function SectionPills() {
   const classes = useStyles();
   return (
@@ -55,11 +68,7 @@ export default function SectionPills() {
                     tabIcon: FormatQuote,
                     tabContent: (
                       <span>
-                        <p>
-                          Efficiently unleash cross-media information without
-                          cross-media value. Quickly maximize timely
-                          deliverables for real-time schemas.
-                        </p>
+                        <SectionTable data={request}/>
                       </span>
                     )
                   },
@@ -70,7 +79,6 @@ export default function SectionPills() {
                       <span>
                         <p>
                           Guess we put the picture here. And then trigger a 'Notification Bar' when an allocation is given as well.
-                          <SectionTable />
                         </p>
                       </span>
                     )
