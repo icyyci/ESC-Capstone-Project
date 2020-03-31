@@ -23,9 +23,11 @@ The code for the above dashboard (i.e. '/Announcements') is located in `Announce
 # Populating Request Table
 'Request Table' is simply the request that each capstone group makes, as their make known their various requirements for their exhibition. This information is collected from another page, compiled into JSON format, and then written to MongoDB - one JSON object per group.
 
-In this 'Announcement' page, students can view their latest request made, represented in a tabular format. Students can locate this table by clicking on "Your Latest Request" tab (see screenshot below for example).
+In this 'Announcement' page, students can view their latest request made, represented in a tabular format. **Students can locate this table by clicking on "Your Latest Request" tab (see screenshot below on how it looks like).**
 
-Note that in this code, it does not actually retrieve any data from MongoDB, so as such, there is an example request provided inside, in JSON format.
+Note that the code for populating and rendering of the table is nested in the `SectionPill` element.
+
+Also note that if you observe the code, it does not actually retrieve any data from MongoDB, so for purpose of demonstration, there is an example request provided inside, in JSON format.
 
 ```
 var request = 
