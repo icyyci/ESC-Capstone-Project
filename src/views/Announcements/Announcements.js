@@ -22,6 +22,19 @@ var AllocationMessageTitle = "ALERT: "
 
 export default function Components(props) {
   const classes = useStyles();
+
+  // Davis: This is where you read the JSON from mongodb into var 'request'. For demonstration, 'request' is hard-coded with static values.
+  var request = 
+  [
+    {'Floor Space (m2)': 5},
+    {'No. of Plugs': 2},
+    {'No. of Screens': 1},
+    {'Require Outdoor Exhibition': 'False'},
+    {'Special Request': 'None'},
+    {'Yeah Yeah': 'Papaya'},
+    {'Blah Blah': 'Watermelon'}
+  ]
+
   return (
     <div>
 
@@ -30,7 +43,8 @@ export default function Components(props) {
 
         <SectionNotification isDisplay={true} message_content={AdminMessageContent} message_title={AdminMessageTitle} colour="danger"/>
         <SectionNotification isDisplay={true} message_content={AllocationMessageContent} message_title={AllocationMessageTitle} colour="success"/>
-        <SectionPills />
+        <SectionPills messagejson={request}/>
+
         <Link to={"/"} className={classes.link}>
             <Button color="primary" size="lg" simple>
               Click Here to Return Back To Home Page
