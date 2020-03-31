@@ -6,8 +6,20 @@ const mongoose = require('mongoose');
 
 
 router.get('/', ensureAuthenticated, (req,res) => {
-    res.send("User log in success");
+    res.sendFile(path.join(__dirname, "/../client/WebPages/userPage.html"));
 })
+
+router.post('/', (req,res) => {
+    console.log(req.body)
+    if (req.body.request == "firstload") {
+        const requestDB = require("../models/requestSchema");
+        requestDB.findOne({groupNumber: req.user.groupUserID}).then(gr => {
+            console.log(gr);
+            res.send(gr);
+        });
+    }
+});
+
 
 
 router.get('/request', ensureAuthenticated, (req,res) => {

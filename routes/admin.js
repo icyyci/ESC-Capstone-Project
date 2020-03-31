@@ -45,7 +45,7 @@ router.post('/', (req,res) => {
     }
 });
 
-router.get('/registergroup', (req, res) => {
+router.get('/registergroup', ensureAuthenticated,(req, res) => {
     res.render('groupRegister');
 });
 
