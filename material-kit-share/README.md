@@ -10,10 +10,15 @@ You can do:
 ```
 npm start
 ```
-to see the page. Note that the page (as seen in the screenshot below) can be found in the page '/Announcements'. For example, it can be in: 'localhost:3000/Announcements'.
+to see the page. Note that the page (as seen in the screenshot below) can be found in the page '/Announcements'. For example, it can be in: `localhost:3000/Announcements`.
 
 # User Dashboard Page
 ![Alt text](Dashboard.png?raw=true "Title")
+
+# Understanding Code Layout
+The code for the above dashboard (i.e. '/Announcements') is located in `Announcements.js` - full path is `\src\views\Announcements\Announcements.js`.
+
+![Alt text](DashboardLayoutExplained.png?raw=true "Title")
 
 # Populating Request Table
 'Request Table' is simply the request that each capstone group makes, as their make known their various requirements for their exhibition. This information is collected from another page, compiled into JSON format, and then written to MongoDB - one JSON object per group.
