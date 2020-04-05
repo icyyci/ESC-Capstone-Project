@@ -14,12 +14,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DenseTable(data) {
+export default function DenseTable(props) {
   const classes = useStyles();
 
+  if (typeof props.data === 'undefined'){
+    return (
+      "Hmm, seems like the data retrieved from database is undefined. It appears that we do not have any records of your request in the database. You can add a new request for your group in the 'Actions' tab!"
+    )
+  }
+
+
   var array = []
-  for (var i = 0; i < data["data"].length; i++){
-    var key_value_pair = data["data"][i]
+  for (var i = 0; i < props["data"].length; i++){
+    var key_value_pair = props["data"][i]
     var property_name = (Object.keys(key_value_pair))[0]
     var property_value = key_value_pair[property_name]
     array.push([property_name, property_value])

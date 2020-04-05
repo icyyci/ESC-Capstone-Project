@@ -27,16 +27,19 @@ var chat;
 
 var capstone_grp_number = "XXX"
 
-var request = 
-[
-  {'Floor Space (m2)': 5},
-  {'No. of Plugs': 2},
-  {'No. of Screens': 1},
-  {'Require Outdoor Exhibition': 'False'},
-  {'Special Request': 'None'},
-  {'Yeah Yeah': 'Papaya'},
-  {'Blah Blah': 'Watermelon'}
-]
+// var request = 
+// [
+//   {'Floor Space (m2)': 5},
+//   {'No. of Plugs': 2},
+//   {'No. of Screens': 1},
+//   {'Require Outdoor Exhibition': 'False'},
+//   {'Special Request': 'None'},
+//   {'Yeah Yeah': 'Papaya'},
+//   {'Blah Blah': 'Watermelon'}
+// ]
+
+// An undefined request. Upon attempt on rendering the table, it will detect that the request is undefined, and will output a simple message instead, instead of throwing an error.
+var request
 
 
 export default function Components(props) {
