@@ -12,7 +12,7 @@ import Store from "@material-ui/icons/Store";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import NavPills from "components/NavPills/NavPills.js";
-import SectionTable from "./SectionTable"
+import SectionTable from "./Sections/SectionTable.js"
 
 import styles from "assets/jss/material-kit-react/views/componentsSections/pillsStyle.js";
 import { Component } from 'react'
@@ -41,7 +41,7 @@ export class SectionPills extends Component {
   
   //FUNCTIONS TO FETCH DATA FROM SERVER COMPONENTDIDMOUNT OR WTV => DO this.setstate({dataLatestRequest: newdata})
 	componentDidMount() {
-	if (window.location.host == "localhost:5000") {
+	if (window.location.host === "localhost:5000") {
 		this.state.url = "http://" + window.location.host;
 	}
 	else {

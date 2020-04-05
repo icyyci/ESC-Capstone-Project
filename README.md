@@ -6,11 +6,10 @@ npm install
 ```
 
 # To start
-You can do:
+To see the page, do:
 ```
 npm start
 ```
-to see the page. Note that the page (as seen in the screenshot below) can be found in the page '/Announcements'. For example, it can be in: `localhost:3000/Announcements`.
 
 # User Dashboard Page
 ![Alt text](Dashboard.png?raw=true "Title")
@@ -25,9 +24,7 @@ The code for the above dashboard (i.e. '/Announcements') is located in `Announce
 
 In this 'Announcement' page, students can view their latest request made, represented in a tabular format. **Students can locate this table by clicking on "Your Latest Request" tab (see screenshot below on how it looks like).**
 
-Note that the code for populating and rendering of the table is nested in the `SectionPill` element.
-
-Also note that if you observe the code, it does not actually retrieve any data from MongoDB, so for purpose of demonstration, there is an example request provided inside, in JSON format.
+Note that if you observe the code, it does not actually retrieve any data from MongoDB, so for purpose of demonstration, there is an example request provided inside, in JSON format.
 
 ```
 var request = 
@@ -41,31 +38,6 @@ var request =
   {'Blah Blah': 'Watermelon'}
 ]
 ```
-## Rendering the Table
-The function call to render to the table is located in the file `SectionPills.js`. This is where the variable `request` is located too. The code calls the function to render the table, along with `request` as a parameter, like so:
-
-```
-<SectionTable data={request}/>
-```
-
-Here, `SectionTable` is something that is imported from another file (see the top of `SectionPills.js`):
-
-```
-import SectionTable from "./SectionTable"
-```
-
-This is done purely to compartmentalise the code - make things neat. This means that the code for the table's implementation is located in the full-path:
-
-```
-.\src\views\Announcements\Sections\SectionTable.js
-```
-
-## Display in Page
-![Alt text](TableEx1.png?raw=true "Title")
-
-
-
-
 
 
 
