@@ -18,16 +18,24 @@ router.post('/', (req,res) => {
             res.send(gr);
         });
     }
+    else if(req.body.request == "announcements") {
+        const announcementDB = require("../models/announcementSchema");
+        announcementDB.findOne({groupID: req.user.groupUserID}).then(grpA => {
+            console.log(grpA);
+            res.send(grpA);
+        })
+    }
 });
 
 
 
 router.get('/request', ensureAuthenticated, (req,res) => {
-    res.sendFile(path.join(__dirname, "/../client/WebPages/index.html"));
+    res.sendFile(path.join(__dirname, "/../client/WebPages/userForm.html"));
 })
 
 router.post('/request', (req,res) => {
     var requestData = req.body;
+    console.log("Data:");
     console.log(requestData);
     var requestDB = require('../models/requestSchema');
     var groupRequestDB;

@@ -7,17 +7,21 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 export class FormRequestDetails extends Component {
+
     continue = e => {
         e.preventDefault();
         console.log("submitting to server");
 
+
+        var url = '';
+        if (window.location.host == "localhost:5000") {
+          url = "http://" + window.location.host;
+        }
+        else {
+          url = "https://" + window.location.host;
+        }
         //To post data to the server
-        axios.post('https://evening-eyrie-66460.herokuapp.com/user/request', this.props.values).then(response => {
-          console.log('submitted to server');
-        }).catch(err => {
-          throw err;
-        });
-        axios.post('http://localhost:5000/user/request', this.props.values).then(response => {
+        axios.post(url + "/user/request", this.props.values).then(response => {
           console.log('submitted to server');
           console.log(response.data);
         }).catch(err => {

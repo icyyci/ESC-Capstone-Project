@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import FormRequestDetails from './FormRequestDetails';
 import Confirm from './Confirm';
-import Success from './Success';
+import Button from '@material-ui/core/Button';
 
 export class UserForm extends Component {
     state = {
@@ -31,6 +31,17 @@ export class UserForm extends Component {
         this.setState({[input]: e.target.value});
     };
 
+    buttonClick = () => {
+        var url = "";
+        if (window.location.host == "localhost:5000") {
+            url = "http://" + window.location.host + "/user";
+        }
+        else {
+            url = "https://" + window.location.host + "/user";
+        }
+        window.location = url;
+    }
+
     render() {
         const { step } = this.state;
         const { typeOfPrototype, showcaseSpaceNeeded, dimensionOfPrototype, 
@@ -56,10 +67,13 @@ export class UserForm extends Component {
                         />
                 )
             case 3:
-                return <Success
-                        nextStep={this.nextStep}
-                        prevStep={this.prevStep}
-                        />
+                return (
+                    <div>
+                        <h1>Success</h1>
+                        <Button onClick={this.buttonClick}>Back To Home Page</Button>
+                    </div>
+                    
+                )
         }
     }
 }

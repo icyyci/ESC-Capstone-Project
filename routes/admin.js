@@ -3,10 +3,12 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
 const path = require('path');
 const mongoose = require('mongoose');
+var listOfGroups;
 
 //Account Model
 const account = require('../models/accountSchema');
 const groupDB = require('../models/groupSchema');
+const announcementDB = require('../models/announcementSchema');
 
 router.get('/', ensureAuthenticated, (req, res) => {
     if(req.user.Role == "admin") {
@@ -36,11 +38,70 @@ router.post('/', (req,res) => {
         console.log("first load");
         groupDB.find({owner:"admin"}).then( grpArray => {
             console.log(grpArray[0].groups);
+            listOfGroups = grpArray[0].groups;
             res.send(grpArray[0].groups);
         })
-
+        
     }
+
+    else if (req.body.request == "announcement") {
+        console.log("announcement");
+        console.log(listOfGroups)
+;        if (req.body.group == "all") {
+            if (listOfGroups.length == 0) {
+                console.log("error, no groups registered");
+                res.send("error, no groups registered");
+            }
+            else {
+                var counter = 0;
+                for (var i = 0; i < listOfGroups.length; i++){
+                    listOfGroups[i] = listOfGroups[i].split(' ').join('').toLowerCase();
+                }
+                for (const groupToPost of listOfGroups) {
+                    counter++;
+                    console.log(groupToPost);
+                    announcementDB.findOne({groupID: groupToPost}).then(grp => {
+                        if(grp) {
+                            grp.Announcement.push(req.body.message)
+                            grp.save();
+                        }
+                        else {
+                            console.log(groupToPost + " does not exist");
+                            const newGrpAnnouncement = new announcementDB({
+                                groupID: groupToPost,
+                                Announcement: req.body.message
+                            })
+                            newGrpAnnouncement.save();
+                        }
+                    })
+                    if (counter == listOfGroups.length -1) {
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            var groupSelected = req.body.group;
+            groupSelected = groupSelected.split(' ').join('').toLowerCase();
+            announcementDB.findOne({groupID: groupSelected}).then(grp =>{
+                if (grp){
+                    grp.Announcement.push(req.body.message);
+                    grp.save();
+                }
+                else {
+                    const newGrpAnnouncement = new announcementDB({
+                        groupID: req.body.group,
+                        Announcement: req.body.message
+                    })
+                    newGrpAnnouncement.save();
+                }
+            })
+
+        }
+    }
+
     else {
+        console.log("Error no request");
         res.send({result:"did not receive request for data"});
     }
 });
