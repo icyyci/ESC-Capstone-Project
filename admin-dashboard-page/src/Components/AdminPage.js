@@ -61,6 +61,7 @@ export class AdminPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            groupIDClicked:'',
             groupNoClicked: '',
             contentShow: false,
             sidebarOpen: false,
@@ -124,6 +125,7 @@ export class AdminPage extends Component {
     }
 
     listOfGroupOnclick = (text) => {
+        this.groupIDClicked = text;
         text = text.split(' ').join('').toLowerCase();
         this.updateGrpNoClicked(text);
         this.displayData(text);
@@ -143,6 +145,7 @@ export class AdminPage extends Component {
         axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:"all"}).then( res => {
             console.log(this.state.announcement);
         })
+        this.state.announcement = "";
         this.handleClose();
     }
     // START CHAT WITH SPECIFIC GROUP use this.state.grpNoClicked
@@ -159,9 +162,13 @@ export class AdminPage extends Component {
     }
     
     //START PRIVATE ANNOUNCEMENT WITH SPECIFIC GROUP use this.state.grpNoClicked
-    // privateAnnouncement = () => {
-
-    // }
+    privateAnnouncement = () => {
+        axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:this.state.groupNoClicked}).then(res => {
+            console.log(this.state.anouncement + " to " + this.state.groupIDClicked);
+        })
+        this.state.announcement = "";
+        this.handleClose();
+    }
     
     render() {
         if (window.location.host == "localhost:5000") {
