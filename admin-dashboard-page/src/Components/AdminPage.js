@@ -142,8 +142,8 @@ export class AdminPage extends Component {
     post = () => {
         axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:"all"}).then( res => {
             console.log(this.state.announcement);
-            this.handleClose();
         })
+        this.handleClose();
     }
     // START CHAT WITH SPECIFIC GROUP use this.state.grpNoClicked
     startChat = () => {
@@ -158,6 +158,10 @@ export class AdminPage extends Component {
         window.location = chatURL;
     }
     
+    //START PRIVATE ANNOUNCEMENT WITH SPECIFIC GROUP use this.state.grpNoClicked
+    // privateAnnouncement = () => {
+
+    // }
     
     render() {
         if (window.location.host == "localhost:5000") {
@@ -177,6 +181,9 @@ export class AdminPage extends Component {
                     {this.state.data}
                     <div>
                         <Button onClick={this.startChat}>Start Chat</Button>
+                    </div>
+                    <div>
+                        <Button onClick={this.privateAnnouncement}>Private Announcement</Button>
                     </div>
                 </div>
             )
