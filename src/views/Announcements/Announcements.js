@@ -52,7 +52,6 @@ export default function Components(props) {
         <SectionPadding/>
         <SectionNotification isDisplay={true} message_content={AdminMessageContent} message_title={AdminMessageTitle} colour="danger"/>
         <SectionNotification isDisplay={true} message_content={AllocationMessageContent} message_title={AllocationMessageTitle} colour="success"/>
-        <SectionTitle grp_no={capstone_grp_number} />
         
         <SectionPills messagejson={request}/>
       </div>
