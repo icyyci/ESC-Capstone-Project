@@ -14,10 +14,10 @@ export default function SectionRequestButton() {
 
   var url;
   if(window.location.host === "localhost:5000") {
-    url = "http://" + window.location.host + "/request";
+    url = "http://" + window.location.host + "/user/request";
   }
   else {
-    url = "https://" + window.location.host + "/request";
+    url = "https://" + window.location.host + "/user/request";
   }
   console.log(`Click on {url}`);
 
