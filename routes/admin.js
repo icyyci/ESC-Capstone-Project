@@ -90,7 +90,7 @@ router.post('/', (req,res) => {
                 }
                 else {
                     const newGrpAnnouncement = new announcementDB({
-                        groupID: req.body.group,
+                        groupID: groupSelected,
                         Announcement: req.body.message
                     })
                     newGrpAnnouncement.save();
