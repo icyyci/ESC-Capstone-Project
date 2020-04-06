@@ -32,6 +32,8 @@ router.post('/', (req,res) => {
         requestDB.findOne({groupNumber: req.body.group}).then(gr => {
             console.log(gr.groupRequest);
             res.send(gr.groupRequest);
+        }).catch(() => {
+            res.send({});
         })
     }
     else if(req.body.request == "firstload") {
