@@ -53,12 +53,10 @@ router.post('/', (req,res) => {
                 res.send("error, no groups registered");
             }
             else {
-                var counter = 0;
                 for (var i = 0; i < listOfGroups.length; i++){
                     listOfGroups[i] = listOfGroups[i].split(' ').join('').toLowerCase();
                 }
                 for (const groupToPost of listOfGroups) {
-                    counter++;
                     console.log(groupToPost);
                     announcementDB.findOne({groupID: groupToPost}).then(grp => {
                         if(grp) {
@@ -74,9 +72,6 @@ router.post('/', (req,res) => {
                             newGrpAnnouncement.save();
                         }
                     })
-                    if (counter == listOfGroups.length -1) {
-                        break;
-                    }
                 }
             }
         }
