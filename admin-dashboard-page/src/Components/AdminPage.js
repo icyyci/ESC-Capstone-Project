@@ -70,7 +70,8 @@ export class AdminPage extends Component {
             data: [],
             url: '',
             dialogueOpen:false,
-            announcement: ''
+            announcement: '',
+            dialogueOpenPrivate:false
         };
     }
 
@@ -80,6 +81,14 @@ export class AdminPage extends Component {
 
     handleClose = () => {
         this.setState({dialogueOpen:false});
+    };
+
+    handleClickOpenPrivate = () => {
+        this.setState({dialogueOpenPrivate:true});
+    };
+
+    handleClosePrivate = () => {
+        this.setState({dialogueOpenPrivate:false});
     };
 
     toggleSidebar = () => {
@@ -163,6 +172,7 @@ export class AdminPage extends Component {
     
     //START PRIVATE ANNOUNCEMENT WITH SPECIFIC GROUP use this.state.grpNoClicked
     privateAnnouncement = () => {
+        this.handleClickOpenPrivate();
         axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:this.state.groupNoClicked}).then(res => {
             console.log(this.state.anouncement + " to " + this.state.groupIDClicked);
         })
@@ -191,6 +201,30 @@ export class AdminPage extends Component {
                     </div>
                     <div>
                         <Button onClick={this.privateAnnouncement}>Private Announcement</Button>
+                        <Dialog open={this.state.dialogueOpenPrivate} onClose={this.handleClosePrivate} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Announcement to {this.state.groupNoClicked}</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                                This is a private announcement
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Message"
+                                fullWidth
+                                onChange = {this.handleAnnouncement('announcement')}
+                            />
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={this.handleClosePrivate} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={this.post} color="primary">
+                                Post
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
                 </div>
             )
@@ -259,7 +293,7 @@ export class AdminPage extends Component {
                             </ListItem>
                             ))}
                             <Dialog open={this.state.dialogueOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">Announcement</DialogTitle>
+                                <DialogTitle id="form-dialog-title">Public Announcement</DialogTitle>
                                 <DialogContent>
                                 <DialogContentText>
                                     This announcement will be showed to all students
