@@ -24,7 +24,6 @@ import SectionChatButton from "./SectionChatButton.js"
 import SectionCapstoneButton from "./SectionCapstoneButton.js"
 import SectionTable from "./SectionTable"
 
-
 const useStyles = makeStyles(styles);
 
 
@@ -36,7 +35,7 @@ export class SectionPills extends Component {
     this.state = {
 	   url: "",
 	   capstoneGrp: "",
-       dataAnnouncement: "Please refer to the Admin's comments and update your request!",
+       dataAnnouncement: [],
        dataCurrentAllocation: "Guess we put the picture here. And then trigger a 'Notification Bar' when an allocation is given as well.",
        dataLatestRequest: []
     }
@@ -57,9 +56,12 @@ export class SectionPills extends Component {
 	}
 
 		axios.post(this.state.url + "/user", {request:"firstload"}).then(res => {
-		console.log(res.data.groupRequest);
-		this.state.capstoneGrp = "Capstone " + res.data.groupNumber;
-		var dataJson = res.data.groupRequest;
+    console.log(res.data);
+    var groupNumber = "";
+    groupNumber = res.data.groupNumber.slice(5);
+    this.state.capstoneGrp = "Capstone Group " + groupNumber;
+    console.log(this.state.capstoneGrp);
+    var dataJson = res.data.groupRequest;
 		var dataRequest = [];
 		var index = 0;
 		var keyArray = ["Type of Prototype:", "Showcase Space Needed:",
@@ -75,10 +77,22 @@ export class SectionPills extends Component {
 		var newJson = { };
 		newJson[key] = val;
 		dataRequest.push(newJson);
-	}
+  }
 	this.setState({dataLatestRequest: dataRequest});
-	console.log(this.state.dataLatestRequest);
-	})
+  console.log(this.state.dataLatestRequest);
+  })
+
+  axios.post(this.state.url + "/user", {request:"announcements"}).then(res => {
+    console.log(res.data);
+    var grpA = res.data.Announcement;
+    var aList = []
+    for (var i = 0; i < grpA.length; i++) {
+      var anJson = { };
+      anJson[i] = grpA[i];
+      aList.push(anJson);
+    }
+    this.setState({dataAnnouncement: aList});
+  })
   }
  
   
@@ -87,9 +101,7 @@ export class SectionPills extends Component {
     const classes = this.useStyles;
     var dataAnnouncement = (
       <span>
-        <p>
-          {this.state.dataAnnouncement}
-        </p>
+        <SectionTable data={this.state.dataAnnouncement}/>
       </span>
     )
 
@@ -104,7 +116,7 @@ export class SectionPills extends Component {
     if (this.state.dataLatestRequest.length == 0){
       var dataLatestRequest = (
         <span>
-          Eh no shit yet
+          No Request Data Available
         </span>
       )
     }
@@ -117,12 +129,14 @@ export class SectionPills extends Component {
     }
 
     return (
-      
         <div className={classes.container}>
           <div id="navigation-pills">
-            
-          
-  
+          <div className={classes.title}>
+                <h1>Dashboard</h1>
+            </div>
+            <div className={classes.subtitle}>
+                <h2>{this.state.capstoneGrp}</h2>
+            </div>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12} lg={12}>
                 <NavPills
