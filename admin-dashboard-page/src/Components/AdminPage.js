@@ -68,7 +68,8 @@ export class AdminPage extends Component {
             groupNo: 2,
             data: [],
             url: '',
-            dialogueOpen:false
+            dialogueOpen:false,
+            announcement: ''
         };
     }
 
@@ -116,7 +117,7 @@ export class AdminPage extends Component {
         axios.post(this.state.url + "/admin", {request:"data", group:text}).then(res => {
             console.log(res.data);
             this.setState({data: JSON.stringify(res.data)});
-            this.setState({groupNoClicked: res.data.groupNumber});
+            this.setState({groupNoClicked: text});
             this.setState({contentShow: true});   
         });
 
@@ -131,21 +132,28 @@ export class AdminPage extends Component {
     updateGrpNoClicked = (text) => {
         this.setState({groupNoClicked: text});
     }
+
+    //Get message from announcements
+    handleAnnouncement = input => e => {
+        this.setState({[input]: e.target.value});
+    }
     
     // POST ANNOUNCEMENT TO SERVER
     post = () => {
-        axios.post(this.state.url + "/admim", {request: "announcemnent", message:}).then( res => {
-            console.log()
+        axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:"all"}).then( res => {
+            console.log(this.state.announcement);
+            this.handleClose();
         })
     }
     // START CHAT WITH SPECIFIC GROUP use this.state.grpNoClicked
     startChat = () => {
         var chatURL = ""
+        console.log(this.state.groupNoClicked);
         if (window.location.host == "localhost:5000") {
-            chatURL = "http://" + window.location.host + "/chat/?group=" + this.state.groupNoClicked;
+            chatURL = "http://" + window.location.host + "/chat/?chat=" + this.state.groupNoClicked;
         }
         else {
-            chatURL = "https://" + window.location.host + "/chat/?group=" + this.state.groupNoClicked;
+            chatURL = "https://" + window.location.host + "/chat/?chat=" + this.state.groupNoClicked;
         }
         window.location = chatURL;
     }
@@ -248,6 +256,7 @@ export class AdminPage extends Component {
                                     id="name"
                                     label="Message"
                                     fullWidth
+                                    onChange = {this.handleAnnouncement('announcement')}
                                 />
                                 </DialogContent>
                                 <DialogActions>
