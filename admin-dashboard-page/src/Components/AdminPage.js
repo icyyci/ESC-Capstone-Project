@@ -134,7 +134,7 @@ export class AdminPage extends Component {
     }
 
     listOfGroupOnclick = (text) => {
-        this.groupIDClicked = text;
+        this.setState({groupIDClicked: text});
         text = text.split(' ').join('').toLowerCase();
         this.updateGrpNoClicked(text);
         this.displayData(text);
@@ -172,12 +172,12 @@ export class AdminPage extends Component {
     
     //START PRIVATE ANNOUNCEMENT WITH SPECIFIC GROUP use this.state.grpNoClicked
     privateAnnouncement = () => {
-        this.handleClickOpenPrivate();
-        axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:this.state.groupNoClicked}).then(res => {
-            console.log(this.state.anouncement + " to " + this.state.groupIDClicked);
+        console.log(this.state.anouncement + " to " + this.state.groupIDClicked);
+        axios.post(this.state.url + "/admin", {request:"announcement", message:this.state.announcement, group:this.state.groupIDClicked}).then(res => {
+            
         })
         this.state.announcement = "";
-        this.handleClose();
+        this.handleClosePrivate();
     }
     
     render() {
@@ -200,9 +200,9 @@ export class AdminPage extends Component {
                         <Button onClick={this.startChat}>Start Chat</Button>
                     </div>
                     <div>
-                        <Button onClick={this.privateAnnouncement}>Private Announcement</Button>
+                        <Button onClick={this.handleClickOpenPrivate}>Private Announcement</Button>
                         <Dialog open={this.state.dialogueOpenPrivate} onClose={this.handleClosePrivate} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">Announcement to {this.state.groupNoClicked}</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Announcement to {this.state.groupIDClicked}</DialogTitle>
                             <DialogContent>
                             <DialogContentText>
                                 This is a private announcement
@@ -220,7 +220,7 @@ export class AdminPage extends Component {
                             <Button onClick={this.handleClosePrivate} color="primary">
                                 Cancel
                             </Button>
-                            <Button onClick={this.post} color="primary">
+                            <Button onClick={this.privateAnnouncement} color="primary">
                                 Post
                             </Button>
                             </DialogActions>
