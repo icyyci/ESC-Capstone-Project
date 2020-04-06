@@ -116,6 +116,7 @@ export class AdminPage extends Component {
         axios.post(this.state.url + "/admin", {request:"data", group:text}).then(res => {
             console.log(res.data);
             this.setState({data: JSON.stringify(res.data)});
+            this.setState({groupNoClicked: res.data.groupNumber});
             this.setState({contentShow: true});   
         });
 
@@ -130,16 +131,25 @@ export class AdminPage extends Component {
     updateGrpNoClicked = (text) => {
         this.setState({groupNoClicked: text});
     }
-    /*
+    
     // POST ANNOUNCEMENT TO SERVER
     post = () => {
-
+        axios.post(this.state.url + "/admim", {request: "announcemnent", message:}).then( res => {
+            console.log()
+        })
     }
     // START CHAT WITH SPECIFIC GROUP use this.state.grpNoClicked
     startChat = () => {
-
+        var chatURL = ""
+        if (window.location.host == "localhost:5000") {
+            chatURL = "http://" + window.location.host + "/chat/?group=" + this.state.groupNoClicked;
+        }
+        else {
+            chatURL = "https://" + window.location.host + "/chat/?group=" + this.state.groupNoClicked;
+        }
+        window.location = chatURL;
     }
-    */
+    
     
     render() {
         if (window.location.host == "localhost:5000") {
