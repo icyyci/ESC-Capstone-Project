@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 
 
 router.get('/', ensureAuthenticated, (req,res) => {
+    if (req.user.Role == 'admin') {
+        res.redirect("/admin");
+    }
     res.sendFile(path.join(__dirname, "/../client/WebPages/userPage.html"));
 })
 
