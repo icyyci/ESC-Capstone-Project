@@ -63,5 +63,6 @@ public class AdminLoginTest {
                 driver.navigate().back();
             }
         }
+        driver.quit();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.selenium;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,25 +41,37 @@ public class UserLoginTest {
 
             //check access for user login
             if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/user")){
-                System.out.println("Login Successful: "+myUserName[i]);
-                driver.get("https://evening-eyrie-66460.herokuapp.com/chat");
-                if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/chat")) {
-                    System.out.println("User Chat is accessed");
+                System.out.println("Login Successful: " + myUserName[i]);
+                // get all the links
+                java.util.List<WebElement> links = driver.findElements(By.tagName("a"));
+                //attempt to get into the links from the website
+                for(int j = 0; j < links.size(); j++) {
+                    //System.out.println("*** Navigating to" + " " + links.get(i).getAttribute("href"));
+                    if (links.get(j).getAttribute("href") == null ||
+                            links.get(j).getAttribute("href").equals("https://sudiptac.bitbucket.io/"))
+                        //if (links.get(i).getAttribute("href") == null)
+                        continue;
+                    boolean staleElementLoaded = true;
+                    //the loop checks whether the elements is properly loaded
+                    while(staleElementLoaded) {
+                        try {
+                            //navigate to the link
+                            driver.navigate().to(links.get(j).getAttribute("href"));
+                            Thread.sleep(3000);
+                            //click the back button in browser
+                            driver.navigate().back();
+                            if(!driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/user")){
+                                driver.navigate().back();
+                            }
+                            Thread.sleep(3000);
+                            links = driver.findElements(By.tagName("a"));
+                            System.out.println("*** Navigated to" + " " + links.get(j).getAttribute("href"));
+                            staleElementLoaded = false;
+                        } catch (StaleElementReferenceException e) {
+                            staleElementLoaded = true;
+                        }
+                    }
                 }
-                else{
-                    System.out.println("User cannot enter chat");
-                }
-                Thread.sleep(3000);
-                driver.navigate().back();
-                driver.get("https://evening-eyrie-66460.herokuapp.com/user/request");
-                if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/user/request")){
-                    System.out.println("User Request is accessed");
-                }
-                else{
-                    System.out.println("User cannot go to Request");
-                }
-                Thread.sleep(3000);
-                driver.navigate().back();
                 driver.get("https://evening-eyrie-66460.herokuapp.com/admin");
                 Thread.sleep(1000);
                 if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/admin")){
@@ -88,5 +101,6 @@ public class UserLoginTest {
                 driver.navigate().back();
             }
         }
+        driver.quit();
     }
 }
