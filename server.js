@@ -54,6 +54,7 @@ server.use('/admin', require('./routes/admin.js'));
 server.use('/user', require('./routes/user.js'));
 server.use('/chat', require('./routes/chat.js'));
 server.use('/map', require('./routes/map.js'));
+server.use('/groupallocation', require('./routes/groupallocation.js'));
 
 
 //EJS

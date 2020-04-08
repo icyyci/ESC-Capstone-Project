@@ -16,7 +16,7 @@ inputTokenizer = (inpString) => {
     return result;
 }
 
-router.get("/", (req,res) => {
+router.get("/", ensureAuthenticated, (req,res) => {
     res.sendFile(path.join(__dirname, "/../client/WebPages/map.html"));
 })
 
@@ -96,6 +96,8 @@ router.post("/", (req,res) => {
                 })
                 newGrpAllo.save();
             }
+        }).catch( () => {
+            console.log("error in allocation");
         })
     }
 })
