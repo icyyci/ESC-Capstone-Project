@@ -9,6 +9,7 @@ var listOfGroups;
 const account = require('../models/accountSchema');
 const groupDB = require('../models/groupSchema');
 const announcementDB = require('../models/announcementSchema');
+const requestDB = require("../models/requestSchema");
 
 router.get('/', ensureAuthenticated, (req, res) => {
     if(req.user.Role == "admin") {
@@ -28,7 +29,6 @@ router.get('/', ensureAuthenticated, (req, res) => {
 router.post('/', (req,res) => {
     console.log(req.body);
     if (req.body.request == "data") {
-        const requestDB = require("../models/requestSchema");
         requestDB.findOne({groupNumber: req.body.group}).then(gr => {
             console.log(gr.groupRequest);
             res.send(gr.groupRequest);
@@ -104,7 +104,13 @@ router.post('/', (req,res) => {
 });
 
 router.get('/registergroup', ensureAuthenticated,(req, res) => {
-    res.render('groupRegister');
+    if (req.user.Role == "admin") {
+        res.render('groupRegister');
+    }
+    else{
+        res.redirect("/user");
+    }
+    
 });
 
 router.post('/registergroup', (req,res) => {
@@ -159,6 +165,11 @@ router.post('/registergroup', (req,res) => {
         });
         
     }
+
+
+
 });
+
+
 
 module.exports = router;

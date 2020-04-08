@@ -52,8 +52,9 @@ server.use((req,res,next) => {
 //Routes
 server.use('/admin', require('./routes/admin.js'));
 server.use('/user', require('./routes/user.js'));
-var chatRoutes = require('./routes/chat.js');
-server.use('/chat', chatRoutes);
+server.use('/chat', require('./routes/chat.js'));
+server.use('/map', require('./routes/map.js'));
+
 
 //EJS
 server.use(expressLayouts);
@@ -77,6 +78,17 @@ server.set('socket.io', io);
 server.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, 'client/WebPages/loginPage.html'));
 });
+
+server.get('/admin/cc_map_lvl1_white/:x/:y/:z.jpg', (req,res) => {
+    var x = req.params.x;
+    var y = req.params.y;
+    var z = req.params.z;
+    //var newPath = __dirname + '/client/cc_map_lvl1_white/' + x + "/" + y + "/" + z + ".jpg";
+    var newPath = path.join(__dirname, "client/cc_map_lvl1_white", x, y , z)
+    newPath += ".jpg";
+    console.log(newPath);
+    res.sendFile(newPath);
+})
 
 
 
