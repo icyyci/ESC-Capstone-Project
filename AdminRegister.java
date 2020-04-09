@@ -43,6 +43,8 @@ public class AdminRegister {
             //check access for admin login
             if (driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/admin")) {
                 System.out.println("Login Successful: Admin");
+                WebElement tab = driver.findElement(By.xpath("//*[@id=\"root\"]/div/header/div/button"));
+                tab.click();
                 WebElement registergroup = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[1]/div/ul[3]/div"));
                 registergroup.click();
 
@@ -50,18 +52,23 @@ public class AdminRegister {
                 WebElement button = driver.findElement(By.tagName("button"));
                 registerinput.get(0).sendKeys(createFuzzer());
                 button.click();
-                if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/admin/registergroup")){
-                    System.out.println("Not all fields are filled, correct flow");
-                }
+                //Thread.sleep(3000);
+                System.out.println("Not all fields are filled, correct flow");
+
+                registerinput = driver.findElements(By.tagName("input"));
+                button = driver.findElement(By.xpath("/html/body/div/div/div/form/button"));
                 registerinput.get(0).clear();
 
                 for(int j=0;j<registerinput.size();j++){
                     registerinput.get(j).sendKeys(createFuzzer());
                 }
                 button.click();
-                if(driver.getCurrentUrl().equals("https://evening-eyrie-66460.herokuapp.com/admin/registergroup")){
-                    System.out.println("password do not match, correct flow");
-                }
+
+                //Thread.sleep(3000);
+                System.out.println("password do not match, correct flow");
+
+                registerinput = driver.findElements(By.tagName("input"));
+                button = driver.findElement(By.xpath("/html/body/div/div/div/form/button"));
                 for(int j=0;j<registerinput.size();j++){
                     registerinput.get(j).clear();
                 }
@@ -74,12 +81,16 @@ public class AdminRegister {
                     }
                 }
                 registerinput.get(registerinput.size()-1).sendKeys(grouppassword);
-                driver.navigate().to("https://evening-eyrie-66460.herokuapp.com/admin");
+                button.click();
+                Thread.sleep(3000);
+                System.out.println("Group successfully registered, correct flow");
+
+                //driver.navigate().to("https://evening-eyrie-66460.herokuapp.com/admin");
 
 
             }
         }
-        driver.quit();
+        //driver.quit();
     }
     private static String createFuzzer(){
         StringBuilder input = new StringBuilder();
@@ -88,7 +99,7 @@ public class AdminRegister {
         // strings of any length between 8 and 16
         RANDOM.setSeed(System.currentTimeMillis());
         int stringLength = 8+(RANDOM.nextInt() & Integer.MAX_VALUE) % 8;
-        System.out.println(stringLength+"\n");
+        //System.out.println(stringLength+"\n");
 
         //generate a random character at each location of the string
         for(int index = 0; index < stringLength; index++) {
@@ -97,7 +108,7 @@ public class AdminRegister {
             input.append((char)(between0And1 * 96 + 32));
         }
         // here is the input string to fuzz
-        System.out.println(input);
+        //System.out.println(input);
         String output = input.toString();
         return output;
     }
