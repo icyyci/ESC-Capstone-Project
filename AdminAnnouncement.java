@@ -55,8 +55,9 @@ public class AdminAnnouncement {
             WebElement publicbutton = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[1]/div/ul[5]/div"));
             publicbutton.click();
             WebElement publicmessage = driver.findElement(By.id("name"));
-            publicmessage.sendKeys("Hi everyone! how's life?");
-            WebElement publicannouncebutton = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[3]/button[2]"));
+            publicmessage.sendKeys("Hi everybody! how's life?");
+            WebElement publicannouncebutton = driver.findElement(By.cssSelector("body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(2)"));
+            Thread.sleep(5000);
             publicannouncebutton.click();
 
             //go out and login as Group 20
