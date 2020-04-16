@@ -109,13 +109,10 @@ export class AdminPage extends Component {
         window.location = this.state.url + "/admin/registergroup";
     }
 
-    unregisterGroup = (groupNo) => {
-        var array = [...this.state.listOfGroups];
-        var index = this.listOfGroups.indexOf(groupNo);
-        if (index !== -1){
-            array.splice(index,1);
-            this.setState({listOfGroups: array});
-        } 
+    unregisterGroup = () => {
+        axios.post(this.state.url + "/admin", {request:"unregister", group:"group30"}).then(res => {
+            this.setState({listOfGroups: res.data});
+        })
     }
 
     toggleContent = () => {
@@ -131,6 +128,10 @@ export class AdminPage extends Component {
             this.setState({contentShow: true});   
         });
 
+    }
+
+    allocateMap = () => {
+        window.location = this.state.url + "/map";
     }
 
     listOfGroupOnclick = (text) => {
@@ -263,7 +264,7 @@ export class AdminPage extends Component {
                         <Divider />
                         <List>
                             {['Allocate Map'].map((text) => (
-                            <ListItem button key={text} >
+                            <ListItem button key={text} onClick={this.allocateMap}>
                                 <ListItemIcon>{<EditLocationIcon /> }</ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
