@@ -7,7 +7,7 @@ const moongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
-var bouncer = require ("express-bouncer")(60000,360000,2);
+var bouncer = require ("express-bouncer")(60000,360000,4);
 
 
 const server = express();

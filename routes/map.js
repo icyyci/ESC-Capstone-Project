@@ -7,14 +7,8 @@ const mongoose = require('mongoose');
 const groupDB = require('../models/groupSchema');
 const allocationDB = require('../models/allocationSchema');
 const requestDB = require("../models/requestSchema");
+const utils = require("../config/utils");
 
-
-inputTokenizer = (inpString) => {
-    var tempString = inpString
-    var splitString = tempString.split("x");
-    var result = [splitString[0], splitString[1]];
-    return result;
-}
 
 router.get("/", ensureAuthenticated, (req,res) => {
     res.sendFile(path.join(__dirname, "/../client/WebPages/map.html"));
@@ -44,7 +38,7 @@ router.post("/", (req,res) => {
                     if (gr) {
                         console.log("Group Allo missing, found group request instead");
                         console.log(gr.groupRequest);
-                        var result = inputTokenizer(gr.groupRequest.showcaseSpaceNeeded);
+                        var result = utils.inputTokenizer(gr.groupRequest.showcaseSpaceNeeded);
                         var width = parseInt(result[0],10);
                         var height = parseInt(result[1],10);
                         var x = 0;

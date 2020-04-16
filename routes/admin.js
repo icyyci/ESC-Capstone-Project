@@ -3,6 +3,7 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
 const path = require('path');
 const mongoose = require('mongoose');
+const utils = require("../config/utils");
 var listOfGroups;
 
 //Account Model
@@ -15,11 +16,6 @@ const allocationDB = require("../models/allocationSchema");
 
 router.get('/', ensureAuthenticated, (req, res) => {
     if(req.user.Role == "admin") {
-        // groupDB.find({owner:"admin"}).then( grpArray => {
-        //     console.log(grpArray);
-        //     console.log(grpArray[0].groups);
-        //     res.send(grpArray.groups);
-        // })
         res.sendFile(path.join(__dirname, "/../client/WebPages/adminPage.html"));
 
     }
@@ -58,7 +54,7 @@ router.post('/', (req,res) => {
             }
             else {
                 for (var i = 0; i < listOfGroups.length; i++){
-                    listOfGroups[i] = listOfGroups[i].split(' ').join('').toLowerCase();
+                    listOfGroups[i] = utils.idFormat(listOfGroups[i]);
                 }
                 for (const groupToPost of listOfGroups) {
                     console.log(groupToPost);
@@ -81,7 +77,7 @@ router.post('/', (req,res) => {
         }
         else {
             var groupSelected = req.body.group;
-            groupSelected = groupSelected.split(' ').join('').toLowerCase();
+            groupSelected = utils.idFormat(groupSelected);
             announcementDB.findOne({groupID: groupSelected}).then(grp =>{
                 if (grp){
                     grp.Announcement.push(req.body.message);
