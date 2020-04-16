@@ -7,6 +7,7 @@ const moongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+var bouncer = require ("express-bouncer")(60000,360000,2);
 
 
 const server = express();
@@ -76,7 +77,7 @@ server.set('socket.io', io);
 
 
 //Default homepage
-server.get('/', (req,res) => {
+server.get('/', bouncer.block, (req,res) => {
     res.sendFile(path.join(__dirname, 'client/WebPages/loginPage.html'));
 });
 
@@ -95,12 +96,16 @@ server.get('/admin/cc_map_lvl1_white/:x/:y/:z.jpg', (req,res) => {
 
 
 //Login Request
-server.post('/', (req, res, next) => {
-    console.log(req.body);
-    passport.authenticate('local', {
-        successRedirect: '/admin',
-        failureRedirect: '/',
-        failureFlash: true,
-    })(req,res,next);
+// server.post('/', (req, res, next) => {
+//     console.log(req.body);
+//     passport.authenticate('local', {
+//         successRedirect: '/admin',
+//         failureRedirect: '/',
+//         failureFlash: true,
+//     })(req,res,next);
+// });
+server.post('/', bouncer.block, passport.authenticate('local'), (req,res)=> {
+    bouncer.reset(req);
+    res.redirect("/user");
 });
 

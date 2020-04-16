@@ -17,6 +17,7 @@
     "connect-flash": "^0.1.1",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-bouncer": "^0.2.0",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.0",
     "http-server": "^0.12.1",
