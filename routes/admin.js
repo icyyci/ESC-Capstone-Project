@@ -10,6 +10,8 @@ const account = require('../models/accountSchema');
 const groupDB = require('../models/groupSchema');
 const announcementDB = require('../models/announcementSchema');
 const requestDB = require("../models/requestSchema");
+const chatDB = require("../models/chatSchema");
+const allocationDB = require("../models/allocationSchema");
 
 router.get('/', ensureAuthenticated, (req, res) => {
     if(req.user.Role == "admin") {
@@ -38,18 +40,18 @@ router.post('/', (req,res) => {
     }
     else if(req.body.request == "firstload") {
         console.log("first load");
-        groupDB.find({owner:"admin"}).then( grpArray => {
-            console.log(grpArray[0].groups);
-            listOfGroups = grpArray[0].groups;
-            res.send(grpArray[0].groups);
+        groupDB.findOne({owner: "admin"}).then( grpArray => {
+            console.log(grpArray.groups);
+            listOfGroups = grpArray.groups;
+            res.send(grpArray.groups);
         })
         
     }
 
     else if (req.body.request == "announcement") {
         console.log("announcement");
-        console.log(listOfGroups)
-;        if (req.body.group == "all") {
+        console.log(listOfGroups);
+        if (req.body.group == "all") {
             if (listOfGroups.length == 0) {
                 console.log("error, no groups registered");
                 res.send("error, no groups registered");
@@ -95,6 +97,32 @@ router.post('/', (req,res) => {
             })
 
         }
+    }
+    else if (req.body.request == "unregister") {
+        var groupToUnregister = req.body.group;
+        requestDB.findOneAndDelete({groupNumber: groupToUnregister}).then(res => {});
+        chatDB.findOneAndDelete({chatRoom: groupToUnregister}).then(res => {});
+        announcementDB.findOneAndDelete({groupID: groupToUnregister}).then(res =>{});
+        account.findOneAndDelete({groupUserID: groupToUnregister}).then(res =>{});
+        allocationDB.findOneAndDelete({Group: groupToUnregister}).then(res => {});
+        groupDB.findOne({owner: "admin"}).then(grpArray=> {
+            console.log("hello" + grpArray.groups);
+            var grpLst = grpArray.groups;
+            var found = false;
+            for (var i = 0; i < grpLst.length; i ++) {
+                var grp = grpLst[i].split(' ').join('').toLowerCase();
+                if (grp === groupToUnregister) {
+                    grpLst.splice(i, 1);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                grpArray.groups = grpLst;
+                grpArray.save();
+            }
+            res.send(grpLst);
+        })
     }
 
     else {
