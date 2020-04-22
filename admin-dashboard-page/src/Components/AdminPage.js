@@ -60,7 +60,7 @@ const styles = theme => ({
         padding: theme.spacing(3),
       },
       table: {
-        minWidth: 650,
+        minWidth: 450,
       },
       // necessary for content to be below app bar
       toolbar: theme.mixins.toolbar,
@@ -74,9 +74,9 @@ export class AdminPage extends Component {
             groupIDClicked:'',
             groupNoClicked: '',
             contentShow: false,
-            drawerIsOpen: true,
-            listOfGroups: ["Group 1"],
-            groupNo: 2,
+            drawerIsOpen: false,
+            listOfGroups: [],
+            groupNo: 0,
             data: [],
             url: '',
             dialogueOpen:false,
@@ -138,7 +138,7 @@ export class AdminPage extends Component {
         console.log("sending request");
         axios.post(this.state.url + "/admin", {request:"data", group:text}).then(res => {
             console.log(res.data);
-            this.setState({data: JSON.stringify(res.data)});
+            this.setState({data: res.data});
             this.setState({groupNoClicked: text});
             this.setState({contentShow: true});   
         });
@@ -215,12 +215,12 @@ export class AdminPage extends Component {
         })
         const { classes } = this.props;
         const rows = [
-            this.createData("Type of Prototype", "hi1"),
-            this.createData("Showcase Space Needed","hi2"),
-            this.createData("Dimension of Prototype","hi3"),
-            this.createData("Number of PowerPoints","hi4"),
-            this.createData("Number of pedestals","hi5"),
-            this.createData("Other requests","hi6"),
+            this.createData("Type of Prototype", this.state.data.typeOfPrototype),
+            this.createData("Showcase Space Needed",this.state.data.showcaseSpaceNeeded),
+            this.createData("Dimension of Prototype",this.state.data.dimensionOfPrototype),
+            this.createData("Number of PowerPoints",this.state.data.noOfPowerPoints),
+            this.createData("Number of pedestals",this.state.data.pedestals),
+            this.createData("Other requests",this.state.data.otherRequests),
         ];
         if (this.state.contentShow){
             var data = (
