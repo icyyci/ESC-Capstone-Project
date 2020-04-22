@@ -23,5 +23,18 @@ idFormat = (inpString) => {
     return result;
 }
 
+convertToFitMap = (inpArray) => {
+    if( inpArray.length != 2) {
+        return [0,0];
+    }
+    var result = []
+    firstInput = inpArray[0];
+    secondInput = inpArray[1];
+    result.push(firstInput * 11.38247);
+    result.push(secondInput * 11.38247);
+    return result;
+}
+
 module.exports.inputTokenizer = inputTokenizer;
 module.exports.idFormat = idFormat;
+module.exports.convertToFitMap = convertToFitMap;

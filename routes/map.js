@@ -39,8 +39,9 @@ router.post("/", (req,res) => {
                         console.log("Group Allo missing, found group request instead");
                         console.log(gr.groupRequest);
                         var result = utils.inputTokenizer(gr.groupRequest.showcaseSpaceNeeded);
-                        var width = parseInt(result[0],10);
-                        var height = parseInt(result[1],10);
+                        var actualSize = utils.convertToFitMap(result);
+                        var width = parseInt(actualSize[0],10);
+                        var height = parseInt(actualSize[1],10);
                         var x = 0;
                         var y = 0;
                         var newAlloJson = {
