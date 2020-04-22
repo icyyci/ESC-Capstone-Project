@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -52,6 +59,9 @@ const styles = theme => ({
         flexGrow: 1,
         padding: theme.spacing(3),
       },
+      table: {
+        minWidth: 650,
+      },
       // necessary for content to be below app bar
       toolbar: theme.mixins.toolbar,
 });
@@ -64,14 +74,15 @@ export class AdminPage extends Component {
             groupIDClicked:'',
             groupNoClicked: '',
             contentShow: false,
-            sidebarOpen: false,
-            listOfGroups: [],
+            drawerIsOpen: true,
+            listOfGroups: ["Group 1"],
             groupNo: 2,
             data: [],
             url: '',
             dialogueOpen:false,
             announcement: '',
-            dialogueOpenPrivate:false
+            dialogueOpenPrivate:false,
+            dialogueOpenUnregister: false
         };
     }
 
@@ -91,13 +102,16 @@ export class AdminPage extends Component {
         this.setState({dialogueOpenPrivate:false});
     };
 
+    handleClickOpenUnregister = () => {
+        this.setState({dialogueOpenUnregister:true});
+    };
+
+    handleCloseUnregister = () => {
+        this.setState({dialogueOpenUnregister:false});
+    };
+
     toggleSidebar = () => {
-        this.state.toggleSidebar = !this.state.toggleSidebar
-        if (this.state.toggleSidebar == true){
-            this.setState({ drawerIsOpen: true });
-        }else{
-            this.setState({ drawerIsOpen: false});
-        }
+        this.setState({drawerIsOpen:!this.state.drawerIsOpen})
     }
     
     registerGroup = () => {
@@ -110,9 +124,10 @@ export class AdminPage extends Component {
     }
 
     unregisterGroup = () => {
-        axios.post(this.state.url + "/admin", {request:"unregister", group:"group30"}).then(res => {
+        axios.post(this.state.url + "/admin", {request:"unregister", group:this.state.groupNo}).then(res => {
             this.setState({listOfGroups: res.data});
         })
+        this.handleCloseUnregister();
     }
 
     toggleContent = () => {
@@ -139,6 +154,8 @@ export class AdminPage extends Component {
         text = text.split(' ').join('').toLowerCase();
         this.updateGrpNoClicked(text);
         this.displayData(text);
+        //delete later
+        this.setState({contentShow:true})
     }
 
     updateGrpNoClicked = (text) => {
@@ -181,6 +198,10 @@ export class AdminPage extends Component {
         this.handleClosePrivate();
     }
     
+    createData = (name, content) => {
+        return { name, content };
+    }
+
     render() {
         if (window.location.host == "localhost:5000") {
             this.state.url = "http://" + window.location.host;
@@ -193,10 +214,36 @@ export class AdminPage extends Component {
             this.state.listOfGroups = res.data;
         })
         const { classes } = this.props;
+        const rows = [
+            this.createData("Type of Prototype", "hi1"),
+            this.createData("Showcase Space Needed","hi2"),
+            this.createData("Dimension of Prototype","hi3"),
+            this.createData("Number of PowerPoints","hi4"),
+            this.createData("Number of pedestals","hi5"),
+            this.createData("Other requests","hi6"),
+        ];
         if (this.state.contentShow){
             var data = (
                 <div>
-                    {this.state.data}
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                            <TableRow>
+
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                <TableCell component="th" scope="row">
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="right">{row.content}</TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     <div>
                         <Button onClick={this.startChat}>Start Chat</Button>
                     </div>
@@ -231,7 +278,7 @@ export class AdminPage extends Component {
             )
         }
         return (
-            <MuiThemeProvider>
+            
                 <React.Fragment>
                     <AppBar position="fixed" className={classes.appBar}>
                         <Toolbar>
@@ -280,11 +327,35 @@ export class AdminPage extends Component {
                         </List>
                         <List>
                             {['Unregister Group'].map((text) => (
-                            <ListItem button key={text} onClick={this.unregisterGroup}>
+                            <ListItem button key={text} onClick={this.handleClickOpenUnregister}>
                                 <ListItemIcon>{ <EditIcon />}</ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
                             ))}
+                            <Dialog open={this.state.dialogueOpenUnregister} onClose={this.handleCloseUnregister} aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Unregister Group</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText>
+                                    Enter the group number to unregister
+                                </DialogContentText>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Group Number"
+                                    fullWidth
+                                    onChange = {this.handleAnnouncement('groupNo')}
+                                />
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={this.handleCloseUnregister} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={this.unregisterGroup} color="primary">
+                                    Confirm
+                                </Button>
+                                </DialogActions>
+                            </Dialog>
                         </List>
                         <List>
                             {['Post Announcement'].map((text) => (
@@ -326,7 +397,7 @@ export class AdminPage extends Component {
                         </Typography>
                     </Container>
                 </React.Fragment>
-            </MuiThemeProvider>
+            
         );
     }
 }
