@@ -24,14 +24,24 @@ idFormat = (inpString) => {
 }
 
 convertToFitMap = (inpArray) => {
-    if( inpArray.length != 2) {
-        return [0,0];
+    try {
+        if( inpArray.length != 2) {
+            return [0,0];
+        }
+        var result = []
+        var firstInput = inpArray[0];
+        var secondInput = inpArray[1];
+        var firstOutput = Math.abs(firstInput * 11.38247)
+        var secondOuput = Math.abs(secondInput * 11.38247)
+        firstOutput = parseFloat(firstOutput.toFixed(6))
+        secondOuput = parseFloat(secondOuput.toFixed(6))
+        result.push(firstOutput);
+        result.push(secondOuput);
     }
-    var result = []
-    firstInput = inpArray[0];
-    secondInput = inpArray[1];
-    result.push(firstInput * 11.38247);
-    result.push(secondInput * 11.38247);
+    catch(error) {
+        result = [0,0]
+    }
+
     return result;
 }
 
